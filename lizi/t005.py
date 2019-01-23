@@ -9,7 +9,7 @@
 5. 检查返回内容格式，发现返回的是json格式内容==>需要用到json包
 '''
 
-from urllib import request, parse
+from urllib import request, parse, error
 # 负责处理json格式的模块
 import json
 
@@ -43,7 +43,11 @@ headers = {
 
 
 # 有了headers，data，url，就可以尝试发出请求了
-rsp = request.urlopen(baseurl, data=data)
+try:
+    rsp = request.urlopen(baseurl, data=data)
+except error.URLError as e:
+    print(e.reason)
+
 
 json_data = rsp.read().decode('utf-8')
 print(type(json_data))
